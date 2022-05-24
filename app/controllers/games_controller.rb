@@ -15,25 +15,20 @@ class GamesController < ApplicationController
   end
 
   def score
-    if within? && valid?
-      @result = "Congratulations, #{params[:word]} is a valid word"
+    @answer = if within?
+      if valid?
+        "congratulations my firned"
+      else
+        "Not a valid word"
+      end
+    else
+      "Sometings wrong"
+    end
   end
 
   def within?
-    c = 0
-    @word = params[:word]
-    arr = @word.split("")
-    @letters.split("").each do |letter1|
-      arr.each do |letter2|
-        if letter1 == letter2
-          c += 1
-        end
-      end
-    end
-    if c == arr.size
-      true
-    end
-    false
-  end
+    @letters = params[:letters].split(//)
+    array = params[:word].split(//)
+    array.all? { |letter| @letters.count(letter) == array.count(letter) }
   end
 end
